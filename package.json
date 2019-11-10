@@ -1,0 +1,17 @@
+{
+  "name": "cpug-discord",
+  "version": "1.0.0",
+  "description": "Discord bot to set up pugs for cod",
+  "main": "dist",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node build/index"
+  },
+  "author": "sunstrous",
+  "license": "MIT",
+  "dependencies": {
+    "@typeit/discord": "^1.0.3",
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0"
+  }
+}
