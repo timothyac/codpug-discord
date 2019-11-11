@@ -1,4 +1,4 @@
-export default class Member {
+export default class Player {
   username: string;
   id: string;
   elo: number = 50;

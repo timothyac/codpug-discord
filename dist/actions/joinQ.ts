@@ -1,23 +1,23 @@
 import { Message } from "discord.js";
-import Member from "../classes/member";
+import Player from "../classes/player";
 
-const queueOfPlayers: Array<Member> = [];
+const queueOfPlayers: Array<Player> = [];
 
 /**
  *
- * @param user User to add to the queue
+ * @param player to add to the queue
  */
-export default function(user: Member, msg: Message): void {
-  let { username, id } = user;
+export default function(player: Player, msg: Message): void {
+  let { username, id } = player;
 
   // Check if player is in queue
   let playerAlreadyInQueue = queueOfPlayers.some(
-    user => user.username === username && user.id === id
+    player => player.username === username && player.id === id
   );
 
   // If player isn't in que, add them to it
   if (!playerAlreadyInQueue) {
-    queueOfPlayers.push(user);
+    queueOfPlayers.push(player);
     msg.reply(`we added you to the queue!`);
   } else {
     msg.reply(`you're already in the queue!`);

@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import Member from "./classes/member";
+import Player from "./classes/player";
 
 const arrayOfActiveUsers = [
   { username: "Sunstoe", id: "123", elo: 927, inQueue: true },
@@ -10,9 +10,9 @@ const arrayOfActiveUsers = [
 /**
  *
  * @param msg Incoming Message object from discord
- * @returns Member
+ * @returns Player
  */
-export default function(msg: Message): Member {
+export default function(msg: Message): Player {
   // Destructure msg object
   let { username, id } = msg.author;
 
@@ -23,7 +23,7 @@ export default function(msg: Message): Member {
 
   if (!checkForUser) {
     // Create new user
-    let newUser = new Member(username, id);
+    let newUser = new Player(username, id);
 
     // Add new user to array
     arrayOfActiveUsers.push(newUser);
