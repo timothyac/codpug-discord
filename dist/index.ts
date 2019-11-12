@@ -14,8 +14,8 @@ client.on("message", async message => {
 
   // Join the active queue
   if (message.content === "!joinQ") {
-    // await joinQueue(player, message);
-    console.log(player);
+    await joinQueue(player, message);
+    // Match players
   }
 
   // Check Leaderboard
