@@ -1,11 +1,13 @@
 export default class Player {
   username: string;
   id: string;
-  elo: number = 50;
-  inQueue: boolean = false;
+  elo: number;
+  inQueue: boolean;
 
-  constructor(username: string, id: string) {
+  constructor({ username, id, elo, inQueue }) {
     this.username = username;
     this.id = id;
+    this.elo = elo;
+    this.inQueue = inQueue;
   }
 }

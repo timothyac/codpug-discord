@@ -32,7 +32,10 @@ export default async function(msg: Message) {
   if (playerAlreadyExists) {
     console.log("Player does exist");
     let player = await playersCollection.doc(id).get();
-    return await player.data();
+    let playerData = await player.data();
+
+    // @ts-ignore
+    return new Player(playerData);
   } else {
     console.log("Player does not exist");
     let newUser = {
@@ -45,6 +48,6 @@ export default async function(msg: Message) {
     // Add new user to database
     await playersCollection.doc(id).set(newUser);
 
-    return newUser;
+    return new Player(newUser);
   }
 }
