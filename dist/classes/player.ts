@@ -8,6 +8,6 @@ export default class Player {
     this.username = username;
     this.id = id;
     this.elo = elo;
-    this.inQueue = inQueue;
+    this.inQueue = inQueue || true;
   }
 }

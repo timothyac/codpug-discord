@@ -2,6 +2,7 @@
 require("dotenv").config();
 import { Client } from "discord.js";
 import checkOrCreatePlayer from "./modules/checkOrCreatePlayer";
+import matchPlayers from "./modules/matchPlayers";
 import joinQueue from "./actions/joinQ";
 
 const client = new Client();
@@ -14,8 +15,9 @@ client.on("message", async message => {
 
   // Join the active queue
   if (message.content === "!joinQ") {
-    await joinQueue(player, message);
+    let activeQueue = await joinQueue(player, message);
     // Match players
+    await matchPlayers(player, activeQueue);
   }
 
   // Check Leaderboard
