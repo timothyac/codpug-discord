@@ -16,12 +16,12 @@ function pickRandomPlayer(matchedPlayers) {
  *
  * @param player to find compatible match for
  * @param activePlayersInQueue to check against
- * @returns {Promise} player
+ * @returns {Promise}
  */
 export default function(
   player: Player,
   activePlayersInQueue: Array<Player>
-): any {
+): { foundMatch: boolean; matchedPlayer?: Player } {
   // Check to see if a user & enemy are compatible
   let filteredQueue = activePlayersInQueue.filter(
     activePlayer => activePlayer.id !== player.id
