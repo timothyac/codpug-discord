@@ -1,11 +1,36 @@
 import { Message } from "discord.js";
 import Player from "../classes/player";
 
-let player1 = new Player({ username: "a", id: "123", elo: 190, inQueue: true });
-let player2 = new Player({ username: "b", id: "234", elo: 150, inQueue: true });
-let player3 = new Player({ username: "c", id: "345", elo: 250, inQueue: true });
-let player4 = new Player({ username: "d", id: "456", elo: 100, inQueue: true });
-let player5 = new Player({ username: "3", id: "567", elo: 110, inQueue: true });
+let player1 = new Player({
+  username: "Script",
+  id: "123",
+  elo: 190,
+  inQueue: true
+});
+let player2 = new Player({
+  username: "Bglo",
+  id: "234",
+  elo: 150,
+  inQueue: true
+});
+let player3 = new Player({
+  username: "Squil",
+  id: "345",
+  elo: 250,
+  inQueue: true
+});
+let player4 = new Player({
+  username: "Lubed",
+  id: "456",
+  elo: 100,
+  inQueue: true
+});
+let player5 = new Player({
+  username: "Gzappa",
+  id: "567",
+  elo: 110,
+  inQueue: true
+});
 
 const queueOfPlayers: Array<Player> = [
   player1,
