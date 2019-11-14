@@ -10,8 +10,17 @@ To have a bot that can create, stage and handle a pug leaderboard for a discord.
 
 ### Currently
 
-- Create members
+- Create members into a firebase/firestore db
 - Allows user's to join a queue
+- Match players based on elo
+- Send a message to a specific channel to let them know they've matched
+
+### Workin On
+
+- Send a message to a group DM between the two players
+- Remove player from queue
+- Match reporting
+- Deployment to heroku
 
 ## Dev
 
