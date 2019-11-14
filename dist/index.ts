@@ -1,13 +1,21 @@
 // .env file where you will store your discord bot token
 require("dotenv").config();
-import { Client, RichEmbed } from "discord.js";
+import { Client, RichEmbed, TextChannel } from "discord.js";
 import checkOrCreatePlayer from "./modules/checkOrCreatePlayer";
 import matchPlayers from "./modules/matchPlayers";
 import joinQueue from "./actions/joinQ";
 
 const client = new Client();
+let channelForPostingMatches;
 
-client.on("ready", () => console.log(`Logged in as ${client.user.tag}!`));
+client.on("ready", () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+
+  // Get channel that matches will be posted in
+  channelForPostingMatches = client.channels
+    .filter(channel => channel.id == process.env.DISCORD_MATCH_CHANNEL)
+    .get(process.env.DISCORD_MATCH_CHANNEL);
+});
 
 client.on("message", async message => {
   // Grab the player of the message
@@ -46,6 +54,8 @@ client.on("message", async message => {
 
       // Send in the channel the original message was set, can be adjusted
       message.channel.send(richEmbed);
+      // Post in specific channel
+      channelForPostingMatches.send(richEmbed);
     } else {
       // Reply that we couldn't find a match right now
       message.reply(
