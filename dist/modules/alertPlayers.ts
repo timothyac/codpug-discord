@@ -52,6 +52,7 @@ export default function({ player1, player2, channel }: alertData) {
 
   // Set embed properties
   richEmbed.setColor(3140255);
+  richEmbed.setURL("https://github.com/SunstroUS/codpug-discord");
   richEmbed.setTitle(
     `${player1.username}(${player1.elo}) vs. ${player2.username}(${player2.elo})`
   );
