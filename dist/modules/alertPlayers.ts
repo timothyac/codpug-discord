@@ -43,7 +43,7 @@ function getRandomMaps(): Array<String> {
  * @description Generate a rich embed, pick 3 random maps, then send everything to a channel
  * @param alertData { player1, player2, channel }
  */
-export default function({ player1, player2, channel }: alertData) {
+export default async function({ player1, player2, channel }: alertData) {
   // Create a rich discord embed
   let richEmbed = new RichEmbed();
 
@@ -68,5 +68,7 @@ export default function({ player1, player2, channel }: alertData) {
   richEmbed.setTimestamp();
 
   // Post in specific channel
-  channel.send(richEmbed);
+  let messagePromise = await channel.send(richEmbed);
+
+  return Promise.resolve(messagePromise);
 }
