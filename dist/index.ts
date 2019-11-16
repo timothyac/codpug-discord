@@ -4,10 +4,11 @@ import { Client } from "discord.js";
 import checkOrCreatePlayer from "./modules/checkOrCreatePlayer";
 import matchPlayers from "./modules/matchPlayers";
 import alertPlayers from "./modules/alertPlayers";
-import joinQueue from "./actions/joinQ";
+import Queue from "./classes/queue";
 import alertDataInt from "./classes/alertData";
 
 const client = new Client();
+const queue = new Queue();
 let channelForPostingMatches;
 
 client.on("ready", () => {
@@ -25,7 +26,7 @@ client.on("message", async message => {
 
   // Join the active queue
   if (message.content === "!joinQ") {
-    let activeQueue = await joinQueue(player, message);
+    let activeQueue = await queue.addPlayer(player, message);
     // Match players
     let { foundMatch, matchedPlayer } = await matchPlayers(player, activeQueue);
 
@@ -38,7 +39,10 @@ client.on("message", async message => {
       };
 
       // Send out rich embeds
-      alertPlayers(alertData);
+      await alertPlayers(alertData);
+
+      // Remove players from queue
+      await queue.removePlayers([player, matchedPlayer]);
     } else {
       // Reply that we couldn't find a match right now
       message.reply(
