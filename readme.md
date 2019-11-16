@@ -11,12 +11,12 @@ To have a bot that can create, stage and handle a pug queue/leaderboard for a di
 ### Currently
 
 - Create members into a firebase/firestore db
-- Allows user's to join a queue
+- !joinQ Allows user's to join a queue
 - Match players based on elo
 - Send a message to a specific channel to let them know they've matched
 - Remove player from queue
 
-### Workin On
+### Working On
 
 - Send a message to a group DM between the two players
 - Match reporting (using reaction collector)
@@ -29,12 +29,11 @@ To have a bot that can create, stage and handle a pug queue/leaderboard for a di
 
 ## Dev
 
+- Built with [Discord.js](https://discord.js.org/).
 - Built with [Typescript](https://www.typescriptlang.org/index.html).
 - Built with [Firebase](https://firebase.google.com/).
 
 ### To Run
-
-## Build Setup
 
 ```bash
 # install dependencies
@@ -46,3 +45,9 @@ npm run start
 # compile TS into JS
 npm run build
 ```
+
+## Helpful Resources
+
+- [Discord Developer Docs](https://discordapp.com/developers/docs/intro)
+- [Discord.js Docs](https://discord.js.org/#/docs/main/stable/general/welcome)
+- [Discord.js Guide](https://discordjs.guide/)
