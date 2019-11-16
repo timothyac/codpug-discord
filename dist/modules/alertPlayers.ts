@@ -1,11 +1,12 @@
 import { RichEmbed } from "discord.js";
 import alertData from "../classes/alertData";
 
+// TO-DO: Move to utils
 function generateRandomNumber(MaxNumber: number) {
   return Math.floor(Math.random() * MaxNumber) + 1;
 }
 
-function pickRandomMap(map1?: string, map2?: string) {
+function getRandomMaps(): Array<String> {
   // Current S&D rotation as of 'CDL v1.0'
   const maps = [
     "Arklov Peak",
@@ -17,24 +18,22 @@ function pickRandomMap(map1?: string, map2?: string) {
     "St. Petrograd"
   ];
 
-  if (map2) {
-    // If there is a second map, then make sure to remove it and map 1
-    let newMaps = maps.filter(map => map !== map1 && map !== map2);
-    return maps[generateRandomNumber(newMaps.length)];
-  } else if (map1) {
-    // If there is a first map, then remove it
-    let newMaps = maps.filter(map => map !== map1);
-    return maps[generateRandomNumber(newMaps.length)];
-  } else {
-    // No existing maps yet, pick a random map (index)
-    return maps[generateRandomNumber(7)];
-  }
-}
+  // Generate random number
+  let map1Index = generateRandomNumber(6);
 
-function getMaps(): Array<String> {
-  let map1 = pickRandomMap();
-  let map2 = pickRandomMap(map1);
-  let map3 = pickRandomMap(map1, map2);
+  // Get it from the array
+  let map1 = maps[map1Index];
+
+  // Remove it
+  maps.splice(map1Index, 1);
+
+  // Repeat
+  let map2Index = generateRandomNumber(5); // TO-DO: Find out if there is a better way to do this
+  let map2 = maps[map2Index];
+  maps.splice(map2Index, 1);
+
+  let map3Index = generateRandomNumber(4);
+  let map3 = maps[map3Index];
 
   return [map1, map2, map3];
 }
@@ -49,7 +48,7 @@ export default function({ player1, player2, channel }: alertData) {
   let richEmbed = new RichEmbed();
 
   // Generate maps that will be played
-  let mapsToPlay = getMaps();
+  let mapsToPlay = getRandomMaps();
 
   // Set embed properties
   richEmbed.setColor(3140255);
