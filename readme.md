@@ -6,7 +6,7 @@
 
 ### Overall (goal)
 
-To have a bot that can create, stage and handle a pug leaderboard for a discord.
+To have a bot that can create, stage and handle a pug queue/leaderboard for a discord.
 
 ### Currently
 
@@ -14,12 +14,17 @@ To have a bot that can create, stage and handle a pug leaderboard for a discord.
 - Allows user's to join a queue
 - Match players based on elo
 - Send a message to a specific channel to let them know they've matched
+- Remove player from queue
 
 ### Workin On
 
 - Send a message to a group DM between the two players
-- Remove player from queue
-- Match reporting
+- Match reporting (using reaction collector)
+
+### Future
+
+- !leaderboard
+- !leaveQ
 - Deployment to heroku
 
 ## Dev
