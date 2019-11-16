@@ -28,7 +28,7 @@ export default function(
   );
 
   let matchedPlayers = filteredQueue.filter(filteredPlayer => {
-    let posElo = player.elo + 100;
+    let posElo = player.elo + 100; // TO-DO: Turn this into a variable that can be set
     let negElo = player.elo - 100;
 
     // Check to see if a user is within a 100 +/- enemy elo
