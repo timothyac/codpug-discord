@@ -9,6 +9,7 @@ import alertDataInt from "./classes/alertData";
 
 const client = new Client();
 const queue = new Queue();
+const currentMatches = [];
 let channelForPostingMatches;
 
 client.on("ready", () => {
@@ -39,16 +40,23 @@ client.on("message", async message => {
       };
 
       // Send out rich embeds
-      await alertPlayers(alertData);
+      let { newMatch } = await alertPlayers(alertData);
 
       // Remove players from queue
       await queue.removePlayers([player, matchedPlayer]);
+
+      // Add new match to active matches
+      currentMatches.push(newMatch);
     } else {
       // Reply that we couldn't find a match right now
       message.reply(
         "no match found at this time. We will keep trying to match you with other players"
       );
     }
+  }
+
+  // Report Match
+  if (message.content === "!reportMatch") {
   }
 
   // Check Leaderboard
