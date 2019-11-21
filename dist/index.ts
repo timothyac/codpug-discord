@@ -23,10 +23,17 @@ client.on("ready", () => {
 
 client.on("message", async message => {
   // Grab the player of the message
-  let player = await checkOrCreatePlayer(message);
+  const player = await checkOrCreatePlayer(message);
+
+  // Define the message contents
+  const messageContents = message.content.split(" ");
+
+  const command = messageContents[0];
+
+  console.log(messageContents);
 
   // Join the active queue
-  if (message.content === "!joinQ") {
+  if (command === "!joinQ") {
     let activeQueue = await queue.addPlayer(player, message);
     // Match players
     let { foundMatch, matchedPlayer } = await matchPlayers(player, activeQueue);
@@ -56,11 +63,13 @@ client.on("message", async message => {
   }
 
   // Report Match
-  if (message.content === "!reportMatch") {
+  if (command === "!reportMatch") {
+    console.log("!reportMatch");
   }
 
   // Check Leaderboard
-  if (message.content === "!leaderBoard") {
+  if (command === "!leaderBoard") {
+    console.log("!leaderBoard");
   }
 });
 
