@@ -6,8 +6,10 @@ let playersCollection = db.collection("players");
 
 let checkDbForPlayer = async userId => {
   try {
+    // Define the player
     let player = await playersCollection.doc(userId).get();
 
+    // Use the firestore property to check if it exists
     let playerExists = (await player.exists) ? true : false;
 
     return playerExists;
@@ -30,7 +32,10 @@ export default async function(msg: Message) {
 
   // If player does exist, then return the player data
   if (playerAlreadyExists) {
+    // Get player information from firestore
     let player = await playersCollection.doc(id).get();
+
+    // .data() is the function to pull the data
     let playerData = await player.data();
 
     // @ts-ignore
@@ -46,6 +51,7 @@ export default async function(msg: Message) {
     // Add new user to database
     await playersCollection.doc(id).set(newUser);
 
+    // Create a new player based on the provided info
     return new Player(newUser);
   }
 }

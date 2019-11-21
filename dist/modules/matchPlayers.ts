@@ -1,6 +1,7 @@
 import Player from "../classes/player";
 import settings from "../settings.config.json";
 
+// Import user config
 const eloRange = (<any>settings).range;
 
 function pickRandomPlayer(matchedPlayers) {
