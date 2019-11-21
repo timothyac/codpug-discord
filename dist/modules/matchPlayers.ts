@@ -1,4 +1,7 @@
 import Player from "../classes/player";
+import settings from "../settings.config.json";
+
+const eloRange = (<any>settings).range;
 
 function pickRandomPlayer(matchedPlayers) {
   // Get the length of the array and subtract one
@@ -28,8 +31,8 @@ export default function(
   );
 
   let matchedPlayers = filteredQueue.filter(filteredPlayer => {
-    let posElo = player.elo + 100; // TO-DO: Turn this into a variable that can be set
-    let negElo = player.elo - 100;
+    let posElo = player.elo + eloRange;
+    let negElo = player.elo - eloRange;
 
     // Check to see if a user is within a 100 +/- enemy elo
     let eloRangeCheck =
