@@ -53,7 +53,35 @@ export default class Match {
     return mapsToPlay;
   }
 
-  finishMatch() {
+  finishMatch(winner) {
+    // Set winner and loser
+    let resultsSet = this._setWinnerAndLoser(winner);
+
+    // If the message author was not a player, reject
+    if (!resultsSet)
+      return Promise.reject("you are not a player of this match.");
+
+    // Set match to inactive
     this.active = false;
+
+    // TODO: Add elo adjust function
+    return Promise.resolve(
+      `congratulations on winning the match, you're elo has now been adjusted to: `
+    );
+  }
+
+  _setWinnerAndLoser(player) {
+    // Match the message author to the player
+    if (player === this.player1) {
+      this.winner = this.player1;
+      this.loser = this.player2;
+      return true;
+    } else if (player === this.player2) {
+      this.winner = this.player2;
+      this.loser = this.player1;
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -2,6 +2,7 @@
 require("dotenv").config();
 import { Client } from "discord.js";
 import checkOrCreatePlayer from "./modules/checkOrCreatePlayer";
+import createNewMatch from "./modules/createNewMatch";
 import matchPlayers from "./modules/matchPlayers";
 import alertPlayers from "./modules/alertPlayers";
 import Queue from "./classes/queue";
@@ -9,7 +10,6 @@ import alertDataInt from "./classes/alertData";
 
 const client = new Client();
 const queue = new Queue();
-const currentMatches = [];
 let channelForPostingMatches;
 
 client.on("ready", () => {
@@ -28,13 +28,13 @@ client.on("message", async message => {
   // Define the message contents
   const messageContents = message.content.split(" ");
 
+  // Grab the user command
   const command = messageContents[0];
-
-  console.log(messageContents);
 
   // Join the active queue
   if (command === "!joinQ") {
     let activeQueue = await queue.addPlayer(player, message);
+
     // Match players
     let { foundMatch, matchedPlayer } = await matchPlayers(player, activeQueue);
 
@@ -43,17 +43,18 @@ client.on("message", async message => {
       let alertData: alertDataInt = {
         player1: player,
         player2: matchedPlayer,
-        channel: channelForPostingMatches || message.channel
+        channel: channelForPostingMatches || message.channel,
+        queue: queue
       };
 
+      // Create new match
+      let newMatch = await createNewMatch(alertData);
+
       // Send out rich embeds
-      let { newMatch } = await alertPlayers(alertData);
+      await alertPlayers(alertData, newMatch);
 
       // Remove players from queue
       await queue.removePlayers([player, matchedPlayer]);
-
-      // Add new match to active matches
-      currentMatches.push(newMatch);
     } else {
       // Reply that we couldn't find a match right now
       message.reply(
@@ -64,7 +65,38 @@ client.on("message", async message => {
 
   // Report Match
   if (command === "!reportMatch") {
-    console.log("!reportMatch");
+    let currentMatches = queue.matches;
+
+    // Check if array is empty
+    let matchIDToReport = messageContents[1];
+
+    // If match ID wasn't included in message
+    if (!matchIDToReport)
+      return message.reply(
+        "you forgot to include match ID, (!reportMatch <matchID>)"
+      );
+
+    console.log(matchIDToReport);
+
+    // Check to see if current match exists
+    let foundMatch = currentMatches.some(
+      match => match.id === Number(matchIDToReport)
+    );
+
+    // If match wasn't found
+    if (!foundMatch)
+      return message.reply("that match ID doesn't exist. Try again.");
+
+    // Find the current match
+    let currentMatch = currentMatches.find(
+      match => match.id === Number(matchIDToReport)
+    );
+
+    currentMatch
+      .finishMatch(player)
+      .then(reply => message.reply(reply))
+      .catch(err => message.reply(err));
+    console.log(currentMatch);
   }
 
   // Check Leaderboard
