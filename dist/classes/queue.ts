@@ -1,8 +1,10 @@
 import { Message } from "discord.js";
 import Player from "./player";
+import Match from "./match";
 
 export default class Queue {
   players: Array<Player> = [];
+  matches: Array<Match> = [];
 
   /**
    *
@@ -50,5 +52,17 @@ export default class Queue {
         this.players.splice(index, 1);
       }
     });
+  }
+
+  /**
+   *
+   * @description Add an actuve match in the queue.
+   * @param matchToAdd
+   * @returns {Array} activeMatches
+   */
+  addNewMatch(matchToAdd: Match): Array<Match> {
+    this.matches.push(matchToAdd);
+
+    return this.matches;
   }
 }

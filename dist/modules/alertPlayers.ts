@@ -6,13 +6,14 @@ import Match from "../classes/match";
  *
  * @description Generate a rich embed, pick 3 random maps, then send everything to a channel
  * @param alertData { player1, player2, channel }
+ * @param Match newMatch
  */
-export default async function({ player1, player2, channel }: alertData) {
+export default async function(
+  { player1, player2, channel }: alertData,
+  newMatch: Match
+) {
   // Create a rich discord embed
   let richEmbed = new RichEmbed();
-
-  // Create a new match
-  let newMatch = new Match({ player1, player2 });
 
   // Generate maps that will be played
   let mapsToPlay = await newMatch.getRandomMaps();
@@ -39,5 +40,5 @@ export default async function({ player1, player2, channel }: alertData) {
   // Post in specific channel
   let messagePromise = await channel.send(richEmbed);
 
-  return Promise.resolve({ messagePromise, newMatch });
+  return Promise.resolve({ messagePromise });
 }
