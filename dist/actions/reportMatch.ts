@@ -1,4 +1,11 @@
-export default function(message, player, queue, messageContents) {
+import commandData from "../classes/commandData";
+
+export default function({
+  message,
+  player,
+  queue,
+  messageContents
+}: commandData) {
   let currentMatches = queue.matches;
 
   // Check if array is empty
