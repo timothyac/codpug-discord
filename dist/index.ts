@@ -2,11 +2,8 @@
 require("dotenv").config();
 import { Client } from "discord.js";
 import checkOrCreatePlayer from "./modules/checkOrCreatePlayer";
-import createNewMatch from "./modules/createNewMatch";
-import matchPlayers from "./modules/matchPlayers";
-import alertPlayers from "./modules/alertPlayers";
 import Queue from "./classes/queue";
-import alertDataInt from "./classes/alertData";
+import joinQ from "./actions/joinQ";
 import reportMatch from "./actions/reportMatch";
 
 const client = new Client();
@@ -34,39 +31,12 @@ client.on("message", async message => {
 
   // Join the active queue
   if (command === "!joinQ") {
-    let activeQueue = await queue.addPlayer(player, message);
-
-    // Match players
-    let { foundMatch, matchedPlayer } = await matchPlayers(player, activeQueue);
-
-    // Determine if the match was found
-    if (foundMatch) {
-      let alertData: alertDataInt = {
-        player1: player,
-        player2: matchedPlayer,
-        channel: channelForPostingMatches || message.channel,
-        queue: queue
-      };
-
-      // Create new match
-      let newMatch = await createNewMatch(alertData);
-
-      // Send out rich embeds
-      await alertPlayers(alertData, newMatch);
-
-      // Remove players from queue
-      await queue.removePlayers([player, matchedPlayer]);
-    } else {
-      // Reply that we couldn't find a match right now
-      message.reply(
-        "no match found at this time. We will keep trying to match you with other players"
-      );
-    }
+    joinQ({ message, player, queue, channelForPostingMatches });
   }
 
   // Report Match
   if (command === "!reportMatch") {
-    reportMatch(message, player, queue, messageContents);
+    reportMatch({ message, player, queue, messageContents });
   }
 
   // Check Leaderboard

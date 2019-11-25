@@ -1,66 +1,41 @@
-import { Message } from "discord.js";
-import Player from "../classes/player";
+import commandData from "../classes/commandData";
+import matchPlayers from "../modules/matchPlayers";
+import alertPlayers from "../modules/alertPlayers";
+import createNewMatch from "../modules/createNewMatch";
+import alertData from "../classes/alertData";
 
-let player1 = new Player({
-  username: "Script",
-  id: "123",
-  elo: 190,
-  inQueue: true
-});
-let player2 = new Player({
-  username: "Bglo",
-  id: "234",
-  elo: 150,
-  inQueue: true
-});
-let player3 = new Player({
-  username: "Squil",
-  id: "345",
-  elo: 250,
-  inQueue: true
-});
-let player4 = new Player({
-  username: "Lubed",
-  id: "456",
-  elo: 100,
-  inQueue: true
-});
-let player5 = new Player({
-  username: "Gzappa",
-  id: "567",
-  elo: 110,
-  inQueue: true
-});
+export default async function({
+  message,
+  player,
+  queue,
+  channelForPostingMatches
+}: commandData) {
+  let activeQueue = await queue.addPlayer(player, message);
 
-const queueOfPlayers: Array<Player> = [
-  player1,
-  player2,
-  player3,
-  player4,
-  player5
-];
+  // Match players
+  let { foundMatch, matchedPlayer } = await matchPlayers(player, activeQueue);
 
-/**
- *
- * @param player to add to the queue
- * @param msg so you can reploy to the user
- * @returns {Array} queueOfPlayers
- */
-export default function(player: Player, msg: Message): Array<Player> {
-  let { username, id } = player;
+  // Determine if the match was found
+  if (foundMatch) {
+    let data: alertData = {
+      player1: player,
+      player2: matchedPlayer,
+      channel: channelForPostingMatches || message.channel,
+      queue: queue
+    };
 
-  // Check to see if player is already in queue
-  let playerAlreadyInQueue = queueOfPlayers.some(
-    player => player.username === username && player.id === id
-  );
+    // Create new match
+    let newMatch = await createNewMatch(data);
 
-  if (playerAlreadyInQueue) {
-    msg.reply(`you're already in the queue!`);
+    // Send out rich embeds
+    await alertPlayers(data, newMatch);
+
+    // Remove players from queue
+    await queue.removePlayers([player, matchedPlayer]);
   } else {
-    // Add new user to database
-    queueOfPlayers.push(player);
-    msg.reply(`we added you to the queue!`);
+    // Reply that we couldn't find a match right now
+    message.reply(
+      "no match found at this time. We will keep trying to match you with other players"
+    );
   }
-
-  return queueOfPlayers;
 }
