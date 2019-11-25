@@ -7,6 +7,7 @@ import matchPlayers from "./modules/matchPlayers";
 import alertPlayers from "./modules/alertPlayers";
 import Queue from "./classes/queue";
 import alertDataInt from "./classes/alertData";
+import reportMatch from "./actions/reportMatch";
 
 const client = new Client();
 const queue = new Queue();
@@ -65,38 +66,7 @@ client.on("message", async message => {
 
   // Report Match
   if (command === "!reportMatch") {
-    let currentMatches = queue.matches;
-
-    // Check if array is empty
-    let matchIDToReport = messageContents[1];
-
-    // If match ID wasn't included in message
-    if (!matchIDToReport)
-      return message.reply(
-        "you forgot to include match ID, (!reportMatch <matchID>)"
-      );
-
-    console.log(matchIDToReport);
-
-    // Check to see if current match exists
-    let foundMatch = currentMatches.some(
-      match => match.id === Number(matchIDToReport)
-    );
-
-    // If match wasn't found
-    if (!foundMatch)
-      return message.reply("that match ID doesn't exist. Try again.");
-
-    // Find the current match
-    let currentMatch = currentMatches.find(
-      match => match.id === Number(matchIDToReport)
-    );
-
-    currentMatch
-      .finishMatch(player)
-      .then(reply => message.reply(reply))
-      .catch(err => message.reply(err));
-    console.log(currentMatch);
+    reportMatch(message, player, queue, messageContents);
   }
 
   // Check Leaderboard

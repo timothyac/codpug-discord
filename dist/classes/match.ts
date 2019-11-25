@@ -70,13 +70,13 @@ export default class Match {
     );
   }
 
-  _setWinnerAndLoser(player) {
+  _setWinnerAndLoser(player: Player) {
     // Match the message author to the player
-    if (player === this.player1) {
+    if (player.id === this.player1.id) {
       this.winner = this.player1;
       this.loser = this.player2;
       return true;
-    } else if (player === this.player2) {
+    } else if (player.id === this.player2.id) {
       this.winner = this.player2;
       this.loser = this.player1;
       return true;
