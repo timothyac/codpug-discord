@@ -15,16 +15,18 @@ To have a bot that can create, stage and handle a pug queue/leaderboard for a di
 - Match players based on elo
 - Send a message to a specific channel to let them know they've matched
 - Remove player from queue
+- Match reporting
 
 ### Working On
 
+- Adjust elo after a match has been reported
 - Send a message to a group DM between the two players
-- Match reporting (using reaction collector)
+- !leaderboard
 
 ### Future
 
-- !leaderboard
 - !leaveQ
+- Admin overrides
 - Deployment to heroku
 
 ## Dev
